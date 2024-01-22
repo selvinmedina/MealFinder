@@ -1,0 +1,45 @@
+.meals-container {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+mat-card {
+  display: flex;
+  flex-direction: column;
+}
+
+mat-card-content {
+  padding: 10px;
+}
+
+mat-card-actions {
+  margin-top: auto;
+}
+
+.meal-card {
+  position: relative;
+}
+
+.card-actions {
+  position: absolute;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  width: 100%;
+}
+
+.meal-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.meal-card img.mat-card-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.card-actions {
+  margin-top: auto;
+}

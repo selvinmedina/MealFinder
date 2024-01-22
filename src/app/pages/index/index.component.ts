@@ -6,6 +6,14 @@ import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { Meal } from '../../models/meal.model';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatCardModule } from '@angular/material/card';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+
+import {MatIconModule} from '@angular/material/icon';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatButtonModule} from '@angular/material/button';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-index',
@@ -15,6 +23,11 @@ import { Meal } from '../../models/meal.model';
     MatInputModule,
     MatFormFieldModule,
     MatSelectModule,
+    MatGridListModule,
+    MatCardModule,
+    MatButtonModule,
+    MatDividerModule,
+    MatIconModule,
   ],
   templateUrl: './index.component.html',
   styleUrl: './index.component.css',
@@ -22,13 +35,42 @@ import { Meal } from '../../models/meal.model';
 export class IndexComponent {
   categories: Category[];
   meals: Meal[];
+  cols: number;
 
-  constructor(private categoryService: CategoryService) {
+  constructor(
+    private categoryService: CategoryService,
+    private breakpointObserver: BreakpointObserver,
+    private router: Router
+  ) {
+    this.cols = 2;
     this.categories = [];
     this.meals = [];
   }
 
   ngOnInit() {
+    this.configureBreakpointObserver();
+    this.getCategories();
+  }
+
+  private configureBreakpointObserver() {
+    this.breakpointObserver
+      .observe([
+        Breakpoints.HandsetPortrait,
+        Breakpoints.TabletPortrait,
+        Breakpoints.WebPortrait,
+      ])
+      .subscribe((result) => {
+        if (result.breakpoints[Breakpoints.HandsetPortrait]) {
+          this.cols = 1;
+        } else if (result.breakpoints[Breakpoints.TabletPortrait]) {
+          this.cols = 2;
+        } else {
+          this.cols = 4;
+        }
+      });
+  }
+
+  private getCategories() {
     this.categoryService.getCategories().subscribe((response) => {
       this.categories = response;
 
@@ -55,5 +97,10 @@ export class IndexComponent {
     } else {
       this.meals = [];
     }
+  }
+
+  onDetails(id: string) {
+    console.log(id);
+    this.router.navigate(['/details', id]);
   }
 }

@@ -14,7 +14,17 @@
   </mat-form-field>
 
   <!-- List of dishes -->
-  <div *ngFor="let meal of meals">
-    <p>{{ meal.strMeal }}</p>
-  </div>
+  <mat-grid-list [cols]="cols" rowHeight="350px" gutterSize="10px">
+    <mat-grid-tile *ngFor="let meal of meals">
+      <mat-card class="meal-card">
+        <mat-card-header>
+          <mat-card-title>{{ meal.strMeal }}</mat-card-title>
+        </mat-card-header>
+        <img mat-card-image [src]="meal.strMealThumb + '/preview'" alt="{{ meal.strMeal }}">
+        <mat-card-actions class="card-actions">
+          <button mat-raised-button (click)="onDetails(meal.idMeal)">Details</button>
+        </mat-card-actions>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
 </div>

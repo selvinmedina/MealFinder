@@ -9,8 +9,7 @@ export const routes: Routes = [
     component: IndexComponent
   },
   {
-    path: 'details',
-    // path: 'details/:id',
+    path: 'details/:id',
     component: DetailsComponent
   }
 ];
