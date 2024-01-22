@@ -1,1 +1,31 @@
-<p>details works!</p>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      {{ meal?.strMeal }}
+    </mat-card-title>
+    <mat-card-subtitle>
+      {{ meal?.strCategory }}
+    </mat-card-subtitle>
+  </mat-card-header>
+  <img mat-card-image [src]="meal?.strMealThumb" alt="{{ meal?.strMeal }}">
+
+  <mat-card-content>
+    <h3>Ingredients</h3>
+    <div class="ingredients-list">
+      <div *ngFor="let ingredient of getIngredients(meal)">
+        <img [src]="getIngredientImageUrl(ingredient.name)" [alt]="ingredient.name">
+        <span>{{ ingredient.name }}</span>
+        <span>{{ ingredient.measure }}</span>
+      </div>
+    </div>
+
+    <h3>Instructions</h3>
+    <p>{{ meal?.strInstructions }}</p>
+
+    <h3>Tags</h3>
+    <mat-chip-grid>
+      <mat-chip *ngFor="let tag of meal?.strTags?.split(',')">{{ tag }}</mat-chip>
+    </mat-chip-grid>
+  </mat-card-content>
+
+</mat-card>

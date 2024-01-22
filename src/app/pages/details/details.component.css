@@ -1,0 +1,25 @@
+mat-card {
+  margin: auto;
+  max-width: 900px;
+}
+
+.ingredients-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+  padding: 16px 0;
+}
+
+.ingredients-list img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
+
+.instructions {
+  white-space: pre-line;
+}
+
+mat-chip {
+  margin: 5px;
+}
