@@ -10,10 +10,12 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
-import {MatIconModule} from '@angular/material/icon';
-import {MatDividerModule} from '@angular/material/divider';
-import {MatButtonModule} from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
 
 @Component({
   selector: 'app-index',
@@ -28,6 +30,8 @@ import { Router } from '@angular/router';
     MatButtonModule,
     MatDividerModule,
     MatIconModule,
+    MatSidenavModule,
+    MatListModule,
   ],
   templateUrl: './index.component.html',
   styleUrl: './index.component.css',
@@ -36,12 +40,14 @@ export class IndexComponent {
   categories: Category[];
   meals: Meal[];
   cols: number;
+  selectedCategory: string;
 
   constructor(
     private categoryService: CategoryService,
     private breakpointObserver: BreakpointObserver,
     private router: Router
   ) {
+    this.selectedCategory = '';
     this.cols = 2;
     this.categories = [];
     this.meals = [];
@@ -90,6 +96,7 @@ export class IndexComponent {
   }
 
   onCategorySelect(category: string) {
+    this.selectedCategory = category;
     if (category) {
       this.categoryService.getMealsByCategory(category).subscribe((meals) => {
         this.meals = meals;
