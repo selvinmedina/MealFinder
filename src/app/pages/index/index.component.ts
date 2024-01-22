@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { CategoryService } from '../../services/category.service';
 import { Category } from '../../models/category.model';
 import { MatInputModule } from '@angular/material/input';
@@ -40,10 +40,10 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
   styleUrl: './index.component.css',
 })
 export class IndexComponent {
-  categories: Category[];
-  meals: Meal[];
-  cols: number;
-  selectedCategory: string;
+  categories = signal<Category[]>([]);
+  meals = signal<Meal[]>([]);
+  cols = signal<number>(2);
+  selectedCategory = signal<string>('');
   searchCtrl: FormControl;
 
   constructor(
@@ -52,10 +52,6 @@ export class IndexComponent {
     private breakpointObserver: BreakpointObserver,
     private router: Router
   ) {
-    this.selectedCategory = '';
-    this.cols = 2;
-    this.categories = [];
-    this.meals = [];
     this.searchCtrl = new FormControl();
   }
 
@@ -73,18 +69,18 @@ export class IndexComponent {
       ])
       .subscribe((result) => {
         if (result.breakpoints[Breakpoints.HandsetPortrait]) {
-          this.cols = 1;
+          this.cols.set(1);
         } else if (result.breakpoints[Breakpoints.TabletPortrait]) {
-          this.cols = 2;
+          this.cols.set(2);
         } else {
-          this.cols = 4;
+          this.cols.set(4);
         }
       });
   }
 
   private getCategories() {
     this.categoryService.getCategories().subscribe((response) => {
-      this.categories = response;
+      this.categories.set(response);
 
       console.log(this.categories);
     });
@@ -94,28 +90,27 @@ export class IndexComponent {
     const value = (e.target as HTMLInputElement).value;
     if (value) {
       this.mealSearchService.searchMeal(value).subscribe((meals) => {
-        this.selectedCategory = '';
-        this.meals = meals;
+        this.selectedCategory.set('');
+        this.meals.set(meals);
       });
     } else {
-      this.meals = [];
+      this.meals.set([]);
     }
   }
 
   onCategorySelect(category: string) {
-    this.selectedCategory = category;
+    this.selectedCategory.set(category);
     this.searchCtrl.setValue('');
     if (category) {
       this.categoryService.getMealsByCategory(category).subscribe((meals) => {
-        this.meals = meals;
+        this.meals.set(meals);
       });
     } else {
-      this.meals = [];
+      this.meals.set([]);
     }
   }
 
   onDetails(id: string) {
-    console.log(id);
     this.router.navigate(['/details', id]);
   }
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MealDetail } from '../../models/meal-detail.model';
 import { MealDetailService } from '../../services/meal-detail.service';
@@ -18,7 +18,7 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class DetailsComponent {
   id: string | null;
-  meal: MealDetail | null;
+  meal = signal<MealDetail | null>(null);
 
   constructor(
     private route: ActivatedRoute,
@@ -26,7 +26,6 @@ export class DetailsComponent {
     private location: Location
   ) {
     this.id = null;
-    this.meal = null;
   }
 
   ngOnInit() {
@@ -40,7 +39,7 @@ export class DetailsComponent {
   private getMealDetail() {
     if (this.id) {
       this.mealDetailService.getMealById(this.id).subscribe((meal) => {
-        this.meal = meal;
+        this.meal.set(meal);
 
         console.log(this.meal);
       });

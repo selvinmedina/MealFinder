@@ -4,9 +4,9 @@
     <mat-nav-list>
       <a
         mat-list-item
-        *ngFor="let category of categories"
+        *ngFor="let category of categories()"
         (click)="onCategorySelect(category.strCategory)"
-        [class.active]="selectedCategory === category.strCategory"
+        [class.active]="selectedCategory() === category.strCategory"
       >
         {{ category.strCategory }}
       </a>
@@ -17,12 +17,17 @@
     <div>
       <mat-form-field appearance="fill">
         <mat-label>Search Dish</mat-label>
-        <input matInput [formControl]="searchCtrl" placeholder="Dish name" (input)="onSearch($event)" />
+        <input
+          matInput
+          [formControl]="searchCtrl"
+          placeholder="Dish name"
+          (input)="onSearch($event)"
+        />
       </mat-form-field>
 
       <!-- List of dishes -->
-      <mat-grid-list [cols]="cols" rowHeight="350px" gutterSize="10px">
-        <mat-grid-tile *ngFor="let meal of meals">
+      <mat-grid-list [cols]="cols()" rowHeight="350px" gutterSize="10px">
+        <mat-grid-tile *ngFor="let meal of meals()">
           <mat-card class="meal-card">
             <mat-card-header>
               <mat-card-title>{{ meal.strMeal }}</mat-card-title>
