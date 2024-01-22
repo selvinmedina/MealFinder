@@ -17,7 +17,7 @@
     <div>
       <mat-form-field appearance="fill">
         <mat-label>Search Dish</mat-label>
-        <input matInput placeholder="Dish name" (input)="onSearch($event)" />
+        <input matInput [formControl]="searchCtrl" placeholder="Dish name" (input)="onSearch($event)" />
       </mat-form-field>
 
       <!-- List of dishes -->

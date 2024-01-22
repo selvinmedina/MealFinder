@@ -16,12 +16,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
+import { MealSearchService } from '../../services/meal-search.service';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-index',
   standalone: true,
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     MatInputModule,
     MatFormFieldModule,
     MatSelectModule,
@@ -41,9 +44,11 @@ export class IndexComponent {
   meals: Meal[];
   cols: number;
   selectedCategory: string;
+  searchCtrl: FormControl;
 
   constructor(
     private categoryService: CategoryService,
+    private mealSearchService: MealSearchService,
     private breakpointObserver: BreakpointObserver,
     private router: Router
   ) {
@@ -51,6 +56,7 @@ export class IndexComponent {
     this.cols = 2;
     this.categories = [];
     this.meals = [];
+    this.searchCtrl = new FormControl();
   }
 
   ngOnInit() {
@@ -87,7 +93,8 @@ export class IndexComponent {
   onSearch(e: Event) {
     const value = (e.target as HTMLInputElement).value;
     if (value) {
-      this.categoryService.getMealsByCategory(value).subscribe((meals) => {
+      this.mealSearchService.searchMeal(value).subscribe((meals) => {
+        this.selectedCategory = '';
         this.meals = meals;
       });
     } else {
@@ -97,6 +104,7 @@ export class IndexComponent {
 
   onCategorySelect(category: string) {
     this.selectedCategory = category;
+    this.searchCtrl.setValue('');
     if (category) {
       this.categoryService.getMealsByCategory(category).subscribe((meals) => {
         this.meals = meals;
