@@ -2,17 +2,17 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MealDetail } from '../../models/meal-detail.model';
 import { MealDetailService } from '../../services/meal-detail.service';
-// mat-card-subtitle
 import { MatCardModule } from '@angular/material/card';
-// mat-chip-list
 import { MatChipsModule } from '@angular/material/chips';
 import { Ingredient } from '../../models/ingredient.model';
 import { CommonModule } from '@angular/common';
+import { Location } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-details',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatChipsModule],
+  imports: [CommonModule, MatCardModule, MatChipsModule, MatButtonModule],
   templateUrl: './details.component.html',
   styleUrl: './details.component.css',
 })
@@ -22,7 +22,8 @@ export class DetailsComponent {
 
   constructor(
     private route: ActivatedRoute,
-    private mealDetailService: MealDetailService
+    private mealDetailService: MealDetailService,
+    private location: Location
   ) {
     this.id = null;
     this.meal = null;
@@ -67,5 +68,9 @@ export class DetailsComponent {
 
   getIngredientImageUrl(ingredient: string): string {
     return `https://www.themealdb.com/images/ingredients/${ingredient}.png`;
+  }
+
+  goBack() {
+    this.location.back();
   }
 }
