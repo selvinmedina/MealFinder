@@ -5,7 +5,8 @@
     "outDir": "./out-tsc/app",
     "types": ["node"],
     "paths": {
-      "@env/*": ["./src/environments/*"]
+      "@env/*": ["./src/environments/*"],
+      "@models/*": ["./src/app/models/*"],
     }
   },
   "files": ["src/main.ts", "src/main.server.ts", "server.ts"],

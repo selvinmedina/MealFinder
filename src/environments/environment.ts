@@ -1,3 +1,3 @@
 export const environment = {
-  TheMealApi: 'www.themealdb.com/api/json/v1/1',
+  TheMealApi: 'https://www.themealdb.com/api/json/v1/1/',
 };
