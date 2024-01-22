@@ -1,1 +1,20 @@
-<p>index works!</p>
+<div>
+  <mat-form-field appearance="fill">
+    <mat-label>Search Dish</mat-label>
+    <input matInput placeholder="Dish name" (input)="onSearch($event)">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Category</mat-label>
+    <mat-select (selectionChange)="onCategorySelect($event.value)">
+      <mat-option *ngFor="let category of categories" [value]="category.strCategory">
+        {{ category.strCategory }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!-- List of dishes -->
+  <div *ngFor="let meal of meals">
+    <p>{{ meal.strMeal }}</p>
+  </div>
+</div>
